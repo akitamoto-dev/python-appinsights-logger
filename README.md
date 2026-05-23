@@ -5,7 +5,7 @@ Python アプリケーションのログを Entra ID 認証で Application Insig
 ## 構成
 
 ```
-appinsights/
+python-appinsights-logger/
 ├── .env.example          # 環境変数テンプレート
 ├── logger.py             # 標準出力 + Application Insights へ送るロガー
 ├── main.py               # 動作確認用のサンプル
@@ -38,19 +38,19 @@ bash infra/deploy.sh
 
 ## アプリ実行
 
-1. `.env.example` を `.env` にコピーして、接続文字列を貼り付け、`LOG_TO_APPINSIGHTS=true` に設定する。
+1. `.env.example` を `.env` にコピーして、接続文字列を貼り付け、`LOG_TO_APPINSIGHTS=true` に設定する
 
     ```bash
     cp .env.example .env
     ```
 
-2. 依存関係をインストール。
+2. 依存関係をインストール
 
     ```bash
     pip install -r requirements.txt
     ```
 
-3. **`appinsights/` ディレクトリで** 実行（`logger.py` がカレントディレクトリの `.env` を読み込むため）。
+3. 実行
 
     ```bash
     python main.py
@@ -58,22 +58,6 @@ bash infra/deploy.sh
 
 標準出力にログが出るとともに、数十秒〜2 分程度で Application Insights に反映される。
 
-## 反映確認（KQL）
-
-```bash
-WORKSPACE_ID=$(az monitor log-analytics workspace show \
-  --resource-group <RG> \
-  --workspace-name <log-xxxxx の名前> \
-  --query customerId -o tsv)
-
-az monitor log-analytics query --workspace "$WORKSPACE_ID" \
-  --analytics-query "AppTraces | where TimeGenerated > ago(5m) | project TimeGenerated, SeverityLevel, Message, AppRoleName" \
-  -o table
-
-az monitor log-analytics query --workspace "$WORKSPACE_ID" \
-  --analytics-query "AppExceptions | where TimeGenerated > ago(5m) | project TimeGenerated, ExceptionType, OuterMessage, AppRoleName" \
-  -o table
-```
 
 ## 削除
 
