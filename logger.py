@@ -5,6 +5,7 @@ import sys
 from azure.identity import DefaultAzureCredential
 from azure.monitor.opentelemetry import configure_azure_monitor
 from dotenv import load_dotenv
+from opentelemetry.sdk.resources import SERVICE_NAME, Resource
 
 load_dotenv()
 
@@ -32,7 +33,7 @@ if _TO_APPINSIGHTS:
             connection_string=_CONNECTION_STRING,
             credential=DefaultAzureCredential(),
             logger_name=_SERVICE_NAME,
-            resource_attributes={"service.name": _SERVICE_NAME},
+            resource=Resource.create({SERVICE_NAME: _SERVICE_NAME}),
         )
     else:
         _logger.warning(
