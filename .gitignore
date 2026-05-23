@@ -1,0 +1,25 @@
+# 仮想環境
+.venv/
+venv/
+env/
+
+# 環境変数（接続文字列を含むためコミットしない）
+.env
+.env.*
+!.env.example
+
+# Python キャッシュ
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 配布物
+*.egg-info/
+build/
+dist/
+
+# IDE / エディタ
+.vscode/
+.idea/
+*.swp
+.DS_Store
