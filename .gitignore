@@ -23,3 +23,9 @@ dist/
 .idea/
 *.swp
 .DS_Store
+
+# 検証ローカル専用（公開リポジトリに含めない）
+plan.md
+# article-*.md
+capture.config.json
+result.json
